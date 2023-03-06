@@ -1,42 +1,32 @@
 <template>
 	<div>
-		<h2>반응형 메시지</h2>
-		<p>{{ reactiveMessage }}</p>
-		<button @click="addReactiveMessage">메시지 추가</button>
-		<p>{{ normalMessage }}</p>
-		<button @click="addNormalMessage">메시지 추가</button>
+		{{ count }}
+		{{ message }}
+
+		<button @click="increase">+++++</button>
 	</div>
 </template>
 
 <script>
-	import { onBeforeMount, onMounted, ref, isRef } from 'vue';
+	import { onMounted, ref } from 'vue';
 
-	// 논리적 관심사 컴포저블
 	export default {
+		mounted() {
+			console.log('어느게 먼저? options mounted');
+		},
 		setup() {
-			console.log('setup()');
-			const reactiveMessage = ref('hello');
-			const addReactiveMessage = () => {
-				reactiveMessage.value = reactiveMessage.value + '!';
+			const count = ref(0);
+			const message = ref('hello');
+			const increase = () => {
+				count.value++;
 			};
-			let normalMessage = 'hello';
-			const addNormalMessage = () => {
-				normalMessage = normalMessage + '!';
-			};
-			console.log(isRef(reactiveMessage));
-			console.log(isRef(normalMessage));
-
 			onMounted(() => {
-				console.log('onMounted');
-			});
-			onBeforeMount(() => {
-				console.log('onBeforeMount');
+				console.log('어느게 먼저? composition mounted'); // 컴포지션이 먼저 실행 됨
 			});
 			return {
-				reactiveMessage,
-				normalMessage,
-				addReactiveMessage,
-				addNormalMessage,
+				count,
+				message,
+				increase,
 			};
 		},
 	};

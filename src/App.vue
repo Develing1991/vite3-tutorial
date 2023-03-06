@@ -1,56 +1,30 @@
 <template>
 	<div>
-		<p>{{ teacher.name }}</p>
-		<!-- <p>{{ teacher.lectures.length > 0 ? 'yes' : 'no' }}</p> -->
-		<p>{{ hasLectures }}</p>
-		<p>{{ hasLectures }}</p>
-		<p>{{ hasLectures }}</p>
-		<p>{{ existLecture() }}</p>
-		<p>{{ existLecture() }}</p>
-		<p>{{ existLecture() }}</p>
-		<button @click="count++">add {{ count }}</button>
-		<h3>이름</h3>
-		<p>{{ fullName }}</p>
+		<div :style="styleObject">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo ea aliquid
+		</div>
+		<div :style="styleComputed">
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo ea aliquid
+		</div>
+		<button @click="fontSize++">click</button>
 	</div>
 </template>
 
 <script>
-	import { reactive, computed, ref } from 'vue';
+	import { ref, reactive, computed } from 'vue';
 
 	export default {
 		setup() {
-			const teacher = reactive({
-				name: 'lee',
-				lectures: ['next', 'nest', 'vue'],
+			const fontSize = ref(10);
+			const styleObject = reactive({
+				color: 'blue',
+				fontSize: '2rem',
 			});
-
-			// useMemo
-			// 캐싱 - 리렌더링 안함~~
-			const hasLectures = computed(() => {
-				console.log('computed');
-				return teacher.lectures.length > 0 ? 'yes' : 'no';
-			});
-			const existLecture = () => {
-				console.log('method');
-				return teacher.lectures.length > 0 ? 'yes' : 'no';
-			};
-
-			const count = ref(0);
-
-			const firstName = ref('lee');
-			const lastName = ref('su');
-			const fullName = computed({
-				get() {
-					return firstName.value + ' ' + lastName.value;
-				},
-				set(value) {
-					console.log(value);
-					[firstName.value, lastName.value] = value.split(' ').reverse();
-				},
-			});
-			console.log(fullName.value);
-			fullName.value = 'set computed';
-			return { teacher, hasLectures, existLecture, count, fullName };
+			const styleComputed = computed(() => ({
+				color: 'red',
+				fontSize: fontSize.value + 'px',
+			}));
+			return { styleObject, styleComputed, fontSize };
 		},
 	};
 </script>

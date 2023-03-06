@@ -1,34 +1,39 @@
 <template>
-	<div>
-		<ul v-for="(item, index) in itemsArray" :key="item.id">
-			<li v-if="item.id % 2 == 0">{{ item.message }} - {{ index }}</li>
-		</ul>
-		<!-- key, value 반대 -->
-		<ul v-for="(value, key, index) in itemsObject" :key="key">
-			<li>{{ key }} - {{ value }} - {{ index }}</li>
-		</ul>
+	<!-- <div v-once>
+		<p>subscribe: {{ subscribe }}</p>
+		<p>views: {{ views }}</p>
+		<p>likes: {{ likes }}</p>
+	</div> -->
+
+	<!-- 
+		const [subScribe, setSubScribe] = useState('');
+		useMemo(()=>{},[subscribe]) 
+		useEffect(()=>{},[subscribe]) 
+	-->
+	<!-- 성능 최적화.. v-for로 출력할 목록이 1000개 이상일 때...  -->
+	<!-- react deps... -->
+	<div v-memo="[subscribe]">
+		<p>subscribe: {{ subscribe }}</p>
+		<p>views: {{ views }}</p>
+		<p>likes: {{ likes }}</p>
 	</div>
+	<button @click="subscribe++">sub ++</button>
+	<button @click="views++">views ++</button>
+	<button @click="likes++">likes ++</button>
 </template>
 
 <script>
-	import { reactive } from 'vue';
+	import { ref } from 'vue';
 
 	export default {
 		setup() {
-			const itemsArray = reactive([
-				{ id: 1, message: 'Java' },
-				{ id: 2, message: 'HTML' },
-				{ id: 3, message: 'CSS' },
-				{ id: 4, message: 'JavaScript' },
-			]);
-			const itemsObject = reactive({
-				title: '제목입니다.',
-				author: '홍길동',
-				publishedAt: '2019-07-08',
-			});
+			const subscribe = ref(4000);
+			const views = ref(400);
+			const likes = ref(400);
 			return {
-				itemsArray,
-				itemsObject,
+				subscribe,
+				views,
+				likes,
 			};
 		},
 	};

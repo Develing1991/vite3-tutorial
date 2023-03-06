@@ -1,30 +1,23 @@
 <template>
 	<div>
-		<div :style="styleObject">
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo ea aliquid
-		</div>
-		<div :style="styleComputed">
-			Lorem ipsum dolor sit amet, consectetur adipisicing elit. Illo ea aliquid
-		</div>
-		<button @click="fontSize++">click</button>
+		<h2 v-if="visible">hh</h2>
+		<h2 v-else>hh</h2>
+		<template v-if="visible">
+			<div>hello</div>
+			<div>hello</div>
+			<div>hello</div>
+		</template>
+		<div v-show="visible">zzz</div>
 	</div>
 </template>
 
 <script>
-	import { ref, reactive, computed } from 'vue';
+	import { ref } from 'vue';
 
 	export default {
 		setup() {
-			const fontSize = ref(10);
-			const styleObject = reactive({
-				color: 'blue',
-				fontSize: '2rem',
-			});
-			const styleComputed = computed(() => ({
-				color: 'red',
-				fontSize: fontSize.value + 'px',
-			}));
-			return { styleObject, styleComputed, fontSize };
+			const visible = ref(true);
+			return { visible };
 		},
 	};
 </script>

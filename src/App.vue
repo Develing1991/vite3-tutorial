@@ -1,30 +1,31 @@
 <template>
 	<div>
-		<!-- changeEvent 발생시.. 리렌더링 비용이 줄어들듯 -->
-		<input type="text" v-model.lazy="inputValue" />
-		{{ reRender() }}
-		<input type="text" v-model.number="inputNumber" />
-		{{ typeof inputNumber }}
-		<input type="text" v-model.trim="inputTrim" />
-		{{ inputTrim }}
+		<button @click="page++">nextPage</button>
+		{{ items }}
 	</div>
 </template>
 
 <script>
-	import { ref } from 'vue';
+	import { ref, watchEffect } from 'vue';
 
 	export default {
 		setup() {
-			const inputValue = ref(null);
-			const inputNumber = ref(null);
-			const inputTrim = ref(null);
-			const reRender = () => {
-				console.log('리렌더링 되니?');
-				console.log(inputValue.value);
-			};
-			return { inputValue, reRender, inputNumber, inputTrim };
+			const page = ref(1);
+			const items = ref(null);
+			//최초 한번실행 // 페이지 변경시 다시 실행
+			watchEffect(async () => {
+				// const { data } = await axios.get(
+				// 	`https://reqres.in/api/users?page=${page.value}`,
+				// );
+				const result = await new Promise((resolve, _) => {
+					console.log(page.value);
+					resolve({
+						data: [{ id: 1, name: '123' }],
+					});
+				});
+				items.value = result.data;
+			});
+			return { page, items };
 		},
 	};
 </script>
-
-<style lang="scss" scoped></style>
